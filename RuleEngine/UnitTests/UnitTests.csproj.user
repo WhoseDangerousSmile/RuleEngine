@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <StartArguments>/assemblyName:"TestDriven.TestRunner.Server, Version=1.0.915.0, Culture=neutral, PublicKeyToken=50ecb853f8c6b8d2" /xmlName:"M:TestDriven.TestRunner.DebugTestRunner.run(System.String,System.String,System.String,System.String,System.String)" /parameter:"tcp://127.0.0.1:1719/02a67256-5278-494c-91cf-e48d92e00d3a" /parameter:"tcp://127.0.0.1:1719/f5f9cedf-398f-4a1b-8704-6a32d4821bcc" /parameter:"\\sp2090a\Visual Studio 2005\Projects\RuleEngine\UnitTests\bin\Debug\UnitTests.dll" /parameter:"M:UnitTests.Xml.modelUpdate3" /parameter:"TestDriven.config"</StartArguments>
+    <StartProgram>C:\Program Files\TestDriven.NET 1.0\ProcessInvocation.exe</StartProgram>
+    <StartWorkingDirectory>C:\Program Files\TestDriven.NET 1.0</StartWorkingDirectory>
+    <StartAction>Program</StartAction>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <StartProgram>
+    </StartProgram>
+    <StartWorkingDirectory>
+    </StartWorkingDirectory>
+    <StartArguments>
+    </StartArguments>
+    <StartAction>Project</StartAction>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PublishUrlHistory />
+    <InstallUrlHistory />
+    <SupportUrlHistory />
+    <UpdateUrlHistory />
+    <BootstrapperUrlHistory />
+    <ErrorReportUrlHistory />
+    <FallbackCulture>zh-CN</FallbackCulture>
+    <VerifyUploadedFiles>false</VerifyUploadedFiles>
+  </PropertyGroup>
+</Project>
