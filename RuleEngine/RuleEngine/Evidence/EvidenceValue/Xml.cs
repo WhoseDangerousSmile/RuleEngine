@@ -28,7 +28,7 @@ namespace RuleEngine.Evidence.EvidenceValue
     public class Xml : IEvidenceValue
     {
         #region instance variables
-        private object previousValue=null;
+        private object previousValue = null;
         private string xPath;
         private Type valueType;
         private string modelId;
@@ -40,11 +40,11 @@ namespace RuleEngine.Evidence.EvidenceValue
         //[System.Diagnostics.DebuggerHidden]
         public Xml(string xPath, Type valueType, string modelId)
         {
-            if (modelId==null)
+            if (modelId == null)
                 throw new Exception("ModelId cannot be null.");
             if (xPath == null)
                 throw new Exception("xPath cannot be null.");
-            if (valueType==null)
+            if (valueType == null)
                 throw new Exception("valueType cannot be null.");
 
             this.modelId = modelId;
@@ -77,7 +77,7 @@ namespace RuleEngine.Evidence.EvidenceValue
                 }
             }
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -89,24 +89,24 @@ namespace RuleEngine.Evidence.EvidenceValue
                 return valueType;
             }
         }
-        
+
         /// <summary>
         /// Does the actual work of getting the value of the xpath expression.
         /// </summary>
         //[System.Diagnostics.DebuggerHidden]
         private object getValue(XmlNode model)
         {
-		    //empty string is equivalent to null
-		    if (xPath=="")
-			    return null;
+            //empty string is equivalent to null
+            if (xPath == "")
+                return null;
 
-		    //XPathNavigator requires an xmldocument to operate on, a model is not required therefore we must supply an empty one
-		    if (model==null)
-			    model = new XmlDocument().DocumentElement;
+            //XPathNavigator requires an xmldocument to operate on, a model is not required therefore we must supply an empty one
+            if (model == null)
+                model = new XmlDocument().DocumentElement;
 
-		    //PERFORMANCE: big performance hit here, can we use compiled xpath?
-		    //execute the xpath
-		    object result=null;
+            //PERFORMANCE: big performance hit here, can we use compiled xpath?
+            //execute the xpath
+            object result = null;
             try
             {
                 //Create XPathNavigator
@@ -161,7 +161,7 @@ namespace RuleEngine.Evidence.EvidenceValue
                         result = node.Value;
                         break;
                     default:
-                        throw new Exception(String.Format("Node type '{0}' not implemented", node.NodeType.ToString() ) );
+                        throw new Exception(String.Format("Node type '{0}' not implemented", node.NodeType.ToString()));
                 }
             }
 
@@ -205,7 +205,7 @@ namespace RuleEngine.Evidence.EvidenceValue
                     //suppress all events being processed or else we will end up in an infinite loop
                     y = model.SelectSingleNode(xPath);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     //not setable
                     throw e;
@@ -250,7 +250,7 @@ namespace RuleEngine.Evidence.EvidenceValue
             if (x == null)
                 throw new Exception("no value for fact");
 
-            if (previousValue==null || !x.Equals(previousValue))
+            if (previousValue == null || !x.Equals(previousValue))
             {
                 previousValue = x;
                 Changed(this, new ChangedModelArgs(modelId));

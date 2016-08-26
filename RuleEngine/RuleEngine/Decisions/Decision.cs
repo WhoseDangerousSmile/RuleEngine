@@ -28,20 +28,26 @@ using RuleEngine.Evidence.EvidenceValue;
 
 namespace RuleEngine.Decisions
 {
-    /// <remarks>decisiontable or decisiontree for evaluation should be determined by parent in a state design pattern</remarks>
+    /// <summary>
+    /// decisiontable or decisiontree for evaluation should be determined by parent in a state design pattern
+    /// 决策   决策表or决策树的计算应该由父类的状态决定
+    /// </summary>
     public class Decision
     {
+        /// <summary>
+        /// 执行列表
+        /// </summary>
         protected ExecutionList executionList = new ExecutionList();
 
         /// <summary>
-        /// 
+        /// 构造函数
         /// </summary>
         public Decision()
         {
         }
 
         /// <summary>
-        /// 
+        /// 执行计算
         /// </summary>
         /// <param name="evidenceCollection"></param>
         /// <param name="factRelationships"></param>
@@ -54,27 +60,32 @@ namespace RuleEngine.Decisions
                 evidence.CallbackLookup += RaiseCallback;
                 evidence.EvidenceLookup += RaiseEvidenceLookup;
                 evidence.ModelLookup += RaiseModelLookup;
-                evidence.Changed += delegate(object sender, ChangedArgs args)
+
+                evidence.Changed += delegate (object sender, ChangedArgs args)
                 {
                     IEvidence evidence1 = (IEvidence)sender;
                     if (!(evidence1 is IFact))
+                    {
                         return; //exit if not IFact
+                    }
 
                     //find out the model of this ifact
+                    // 找出这ifact模型
                     IFact fact = (IFact)evidence1;
                     IEvidenceValue value = (IEvidenceValue)fact.ValueObject;
                     string modelId = value.ModelId;
 
                     //go through all ifacts and add those to of the same model to the execution list
-                    foreach(IEvidence evidence2 in evidenceCollection.Values)
+                    // 遍历所有ifacts并添加这些到相同的模型来执行列表
+                    foreach (IEvidence evidence2 in evidenceCollection.Values)
                     {
-                        //exclude all evidences not of IFact type
+                        //exclude all evidences not of IFact type 排除所有不是IFact证据类型
                         if (!(evidence2 is IFact))
                             continue;
-                        //exclude self
+                        //exclude self 排除自己
                         if (evidence2.ID == evidence1.ID)
                             continue;
-                        //exclude all ifacts who are of a different model
+                        //exclude all ifacts who are of a different model   排除所有那些不同的ifacts模型
                         if (evidence2.ValueObject.ModelId != modelId)
                             continue;
                         //we have a hit, add them to the list
@@ -99,7 +110,7 @@ namespace RuleEngine.Decisions
 
             #region load up the execution list with chainable rules
             //load up the execution list with chainable rules
-            // 加载列表可执行规则
+            // 加载列表可执行链式规则
             foreach (IEvidence rule in evidenceCollection.Values)
             {
                 if (rule is IRule && ((IRule)rule).isChainable)
@@ -125,12 +136,12 @@ namespace RuleEngine.Decisions
                 IEvidence evidence = evidenceCollection[evidenceId];
                 Debug.WriteLine("EvidenceId: " + evidence.ID);
 
-                //evaluate evidence
+                //evaluate evidence计算证明
                 evidence.Evaluate();
 
                 //add its actions, if any, to executionList, for evidence that has clauses
-
-                if (evidence.ClauseEvidence!=null)
+                // /如果证明有子句的，增加它的行为
+                if (evidence.ClauseEvidence != null)
                 {
                     foreach (string clauseEvidenceId in evidence.ClauseEvidence)
                     {
@@ -141,6 +152,7 @@ namespace RuleEngine.Decisions
                 }
 
                 //add chainable dependent facts to executionList
+                // /执行列表的链式的相关的事实
                 if (factRelationships.ContainsKey(evidence.ID))
                 {
                     List<string> dependentFacts = factRelationships[evidence.ID];

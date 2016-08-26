@@ -53,9 +53,10 @@ namespace RuleEngine
         #region core
         /// <summary>
         /// Add a model to the ROM. The name given to the model must match those specified in the ruleset.
+        /// 添加一个实体，实体名称必须符合规则规定
         /// </summary>
-        /// <param name="modelId"></param>
-        /// <param name="model"></param>
+        /// <param name="modelId">实体ID</param>
+        /// <param name="model">规则实体xml</param>
         public void AddModel(string modelId, XmlDocument model)
         {
             //add model to collection
@@ -64,12 +65,13 @@ namespace RuleEngine
 
         /// <summary>
         /// Add a fact, action, or rule to the ROM.
+        /// 添加一个，事实，动作，或者规则
         /// </summary>
         /// <param name="Action"></param>
         public void AddEvidence(IEvidence evidence)
         {
             //add evidence to collection
-            evidenceCollection.Add(evidence.ID, evidence); 
+            evidenceCollection.Add(evidence.ID, evidence);
         }
 
         /// <summary>
@@ -80,7 +82,10 @@ namespace RuleEngine
         public void AddDependentFact(string evidence, string dependentEvidence)
         {
             if (!this.dependentEvidence.ContainsKey(evidence))
+            {
                 this.dependentEvidence.Add(evidence, new List<string>());
+            }
+
             this.dependentEvidence[evidence].Add(dependentEvidence);
         }
 
@@ -120,18 +125,18 @@ namespace RuleEngine
         }
 
         /// <summary>
-        /// 
+        /// 计算
         /// </summary>
         public void Evaluate()
         {
-            Decisions.Decision decision = (new Decisions.Decision());
+            Decisions.Decision decision = new Decisions.Decision();
             decision.EvidenceLookup += evidence_EvidenceLookup;
             decision.ModelLookup += evidence_ModelLookup;
             decision.Evaluate(evidenceCollection, dependentEvidence);
         }
 
         /// <summary>
-        /// 
+        /// 克隆
         /// </summary>
         /// <returns></returns>
         public object Clone()
@@ -158,10 +163,10 @@ namespace RuleEngine
         }
 
         /// <summary>
-        /// 
+        /// 注册回调函数
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="callback"></param>
+        /// <param name="name">函数名称</param>
+        /// <param name="callback">回调委托</param>
         public void RegisterCallback(string name, Delegate callback)
         {
             this.callback.Add(name, callback);

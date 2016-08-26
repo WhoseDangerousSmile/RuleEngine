@@ -27,7 +27,7 @@ namespace SpeedTest
         static void Main(string[] args)
         {
             IndividualFactTest();
-            FactTest();
+            //FactTest();
             //ClonedFactTest();
             Console.Write("Finished.. Press Return.");
             Console.Read();
@@ -66,7 +66,7 @@ namespace SpeedTest
 
             rom.AddEvidence(R1);
             rom.Evaluate();
-
+            
 
             Console.WriteLine("Starting Test:" + DateTime.Now);
             total = 50000;
@@ -80,7 +80,7 @@ namespace SpeedTest
             diff = end - start;
             Console.WriteLine("Total ms: " + diff.TotalMilliseconds);
 
-            Console.WriteLine("qps /s: " + diff.TotalMilliseconds/total*1000);
+            Console.WriteLine("qps /s: " + diff.TotalMilliseconds / total * 1000);
 
             Console.WriteLine("milliseconds per rule: " + (diff.TotalMilliseconds / (total * 8d))); //eight rules per run
         }

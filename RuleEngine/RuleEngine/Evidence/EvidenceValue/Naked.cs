@@ -29,8 +29,16 @@ namespace RuleEngine.Evidence.EvidenceValue
     public class Naked : IEvidenceValue
     {
         #region instance variables
+        /// <summary>
+        /// value
+        /// </summary>
         private object value;
+
+        /// <summary>
+        /// ¿‡–Õ
+        /// </summary>
         private Type valueType;
+
         private event ModelLookupHandler modelLookup;
         private event ChangedHandler changed;
         private event EvidenceLookupHandler evidenceLookup;
@@ -62,7 +70,7 @@ namespace RuleEngine.Evidence.EvidenceValue
             }
             set
             {
-                if (this.value==null || !this.value.Equals(value))
+                if (this.value == null || !this.value.Equals(value))
                 {
                     this.value = value;
                     changed(this, new ChangedArgs());
@@ -76,7 +84,7 @@ namespace RuleEngine.Evidence.EvidenceValue
         //[System.Diagnostics.DebuggerHidden]
         public Type ValueType
         {
-            get 
+            get
             {
                 return valueType;
             }

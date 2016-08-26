@@ -29,6 +29,9 @@ using RuleEngine.Evidence.EvidenceValue;
 
 namespace RuleEngine.Evidence.Actions
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ActionExpression : AEvidence, IAction
     {
         #region instance variables
@@ -37,8 +40,9 @@ namespace RuleEngine.Evidence.Actions
         private string operatingId;
         #endregion
         #region constructor
+
         /// <summary>
-        /// 
+        /// 构造函数
         /// </summary>
         /// <param name="ID"></param>
         /// <param name="operatingId">操作ID</param>

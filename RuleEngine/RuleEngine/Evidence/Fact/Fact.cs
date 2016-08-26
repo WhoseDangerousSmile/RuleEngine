@@ -36,9 +36,11 @@ namespace RuleEngine.Evidence
         /// Construct Fact. 
         /// </summary>
         /// <param name="ID"></param>
-        /// <param name="Value"></param>
+        /// <param name="priority">优先级</param>
+        /// <param name="value">值</param>
+        /// <param name="valueType">值类型</param>
         //[System.Diagnostics.DebuggerHidden]
-        public Fact(string ID, int priority, object value, Type valueType) : base(ID,priority)
+        public Fact(string ID, int priority, object value, Type valueType) : base(ID, priority)
         {
 
             //naked
@@ -72,7 +74,7 @@ namespace RuleEngine.Evidence
         }
         #endregion
         #region core
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -82,7 +84,7 @@ namespace RuleEngine.Evidence
             if (IsEvaluatable)
                 EvidenceValue.Evaluate();
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -91,7 +93,7 @@ namespace RuleEngine.Evidence
         public override object Clone()
         {
             Fact f = (Fact)base.Clone();
-            
+
             return f;
         }
 
