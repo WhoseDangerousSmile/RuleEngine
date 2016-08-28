@@ -27,7 +27,7 @@ using RuleEngine.Evidence;
 namespace RuleEngine
 {
     /// <summary>
-    /// States that an object has changed
+    /// 对象改变状态States that an object has changed
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="args"></param>
@@ -35,7 +35,7 @@ namespace RuleEngine
     public delegate void ChangedHandler(object sender, ChangedArgs args);
 
     /// <summary>
-    /// Requests the specified IEvidence
+    /// 查找IEvidence  Requests the specified IEvidence
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="args"></param>
@@ -72,12 +72,19 @@ namespace RuleEngine
 
 
     /// <summary>
-    /// 
+    /// 查找Evidence事件参数
     /// </summary>
     public class EvidenceLookupArgs : EventArgs
     {
+        /// <summary>
+        /// 关键字
+        /// </summary>
         private string key;
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="Key"></param>
         //[System.Diagnostics.DebuggerHidden]
         public EvidenceLookupArgs(string Key)
         {
@@ -95,12 +102,12 @@ namespace RuleEngine
     }
 
     /// <summary>
-    /// 
+    /// XML模型查找参数定义
     /// </summary>
     public class ModelLookupArgs : EventArgs
     {
         private string key;
-        
+
         //[System.Diagnostics.DebuggerHidden]
         public ModelLookupArgs(string Key)
         {
@@ -118,11 +125,15 @@ namespace RuleEngine
     }
 
     /// <summary>
-    /// 
+    ///  改变状态事件参数定义
     /// </summary>
     public class ChangedArgs : EventArgs
     {
     }
+
+    /// <summary>
+    /// 改变模型状态事件定义
+    /// </summary>
     public class ChangedModelArgs : ChangedArgs
     {
         private string modelId;
@@ -144,7 +155,8 @@ namespace RuleEngine
     }
 
     /// <summary>
-    /// EventArgs for requesting the mediator list
+    ///  EventArgs请求中间List参数
+    ///  EventArgs for requesting the mediator list
     /// </summary>
     public class MediatorListArgs : EventArgs
     {
@@ -155,6 +167,7 @@ namespace RuleEngine
     }
 
     /// <summary>
+    /// 模型更新事件参数
     /// Event args for when a model is updated
     /// </summary>
     public class ModelUpdateArgs : EventArgs
@@ -177,7 +190,9 @@ namespace RuleEngine
         }
     }
 
-
+    /// <summary>
+    /// 回调参数
+    /// </summary>
     public class CallbackArgs : EventArgs
     {
         private string callbackId;

@@ -140,7 +140,10 @@ namespace RuleEngine.Evidence
         {
             get { return chainable; }
         }
-        
+
+        /// <summary>
+        /// 核心计算
+        /// </summary>
         public override void Evaluate()
         {
             ExpressionEvaluator e = new ExpressionEvaluator();
@@ -148,9 +151,10 @@ namespace RuleEngine.Evidence
             e.Postfix = this.postfixExpression;
             ExpressionEvaluator.Symbol o = e.Evaluate(); //PERFORMANCE: this method is slow.
 
-            base.EvidenceValue.Reset(); //clear previous values
+            base.EvidenceValue.Reset(); //清空之前数据
 
             //result must be of this type or the expression is invalid, throw exception
+            // 结果是IEvidenceValue类型，或者表达式为无效的，则抛出异常
             IEvidenceValue result = o.value as IEvidenceValue;
 
             //exit if null returned
@@ -158,15 +162,15 @@ namespace RuleEngine.Evidence
             {
                 return;
             }
-            
-            //see if its value has changed, if so then set the value and call the events
+
+            // 值被改变了则调用事件
             if (base.Value.Equals(result.Value))
                 return; //no change in value, dont raise an event
 
-            base.Value = result.Value;
+            base.Value = result.Value; // 此方法，引发false时规则条件表达式中的引用为0
             RaiseChanged(this, new ChangedArgs());
         }
-        
+
         protected override IEvidence Value_EvidenceLookup(object sender, EvidenceLookupArgs args)
         {
             return RaiseEvidenceLookup(this, args);

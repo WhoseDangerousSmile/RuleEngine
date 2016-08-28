@@ -69,26 +69,31 @@ namespace RuleEngine.Decisions
                         return; //exit if not IFact
                     }
 
-                    //find out the model of this ifact
                     // 找出这ifact模型
                     IFact fact = (IFact)evidence1;
                     IEvidenceValue value = (IEvidenceValue)fact.ValueObject;
                     string modelId = value.ModelId;
 
-                    //go through all ifacts and add those to of the same model to the execution list
                     // 遍历所有ifacts并添加这些到相同的模型来执行列表
                     foreach (IEvidence evidence2 in evidenceCollection.Values)
                     {
-                        //exclude all evidences not of IFact type 排除所有不是IFact证据类型
+                        // 排除所有不是IFact证据类型
                         if (!(evidence2 is IFact))
+                        {
                             continue;
-                        //exclude self 排除自己
+                        }
+                        // 排除自己
                         if (evidence2.ID == evidence1.ID)
+                        {
                             continue;
-                        //exclude all ifacts who are of a different model   排除所有那些不同的ifacts模型
+                        }
+
+                        // 排除所有那些不同的ifacts模型
                         if (evidence2.ValueObject.ModelId != modelId)
+                        {
                             continue;
-                        //we have a hit, add them to the list
+                        }
+
                         executionList.Add(evidence2);
                     }
                 };
