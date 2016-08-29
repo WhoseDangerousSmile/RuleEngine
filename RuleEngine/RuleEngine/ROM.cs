@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using RuleEngine.Evidence;
+using System.Diagnostics;
 
 namespace RuleEngine
 {
@@ -81,6 +82,7 @@ namespace RuleEngine
         /// <param name="dependentEvidence"></param>
         public void AddDependentFact(string evidence, string dependentEvidence)
         {
+            Debug.WriteLine(evidence + "ÃÌº”“¿¿µ ¬ µ: " + dependentEvidence);
             if (!this.dependentEvidence.ContainsKey(evidence))
             {
                 this.dependentEvidence.Add(evidence, new List<string>());
@@ -111,7 +113,15 @@ namespace RuleEngine
             {
                 try
                 {
-                    return evidenceCollection[id];
+                    if (evidenceCollection.ContainsKey(id))
+                    {
+                        return evidenceCollection[id];
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
                 }
                 catch
                 {

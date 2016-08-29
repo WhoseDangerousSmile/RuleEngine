@@ -35,13 +35,21 @@ using RuleEngine.Evidence.EvidenceValue;
 namespace RuleEngine.Evidence
 {
     /// <summary>
-    /// Summary description for ExpressionEvaluator2.
+    /// 表达式计算器
     /// </summary>
     public class ExpressionEvaluator
     {
+        /// <summary>
+        /// 表达式匹配事件
+        /// </summary>
         public event RuleEngine.EvidenceLookupHandler GetEvidence;
 
         #region RelatedEvidence
+        /// <summary>
+        /// 相关证据
+        /// </summary>
+        /// <param name="symbols">符号</param>
+        /// <returns>返回符号名称</returns>
         public static string[] RelatedEvidence(List<Symbol> symbols)
         {
             ArrayList al = new ArrayList();
@@ -57,27 +65,87 @@ namespace RuleEngine.Evidence
         #endregion
         #region Evaluate
         #region instance varaibles
+
+        /// <summary>
+        /// 正则匹配表达式
+        /// </summary>
         private static readonly string LogicalRegEx = @"(\x29|\x28|>=|<=|!=|==|<|>|AND|OR|NOT|ISNULL|XOR|\x2b|\x2d|\x2a|\x2f)";
+
+        /// <summary>
+        /// 结果
+        /// </summary>
         protected double result = 0;
+
+        /// <summary>
+        /// 中缀表达式
+        /// </summary>
         protected List<Symbol> infix = new List<Symbol>();
+
+        /// <summary>
+        /// 后缀表达式
+        /// </summary>
         protected List<Symbol> postfix = new List<Symbol>();
 
+        /// <summary>
+        /// 类型
+        /// </summary>
         public enum Type
         {
+            /// <summary>
+            /// 变量
+            /// </summary>
             Fact,
+            /// <summary>
+            /// 值
+            /// </summary>
             Value,
+            /// <summary>
+            /// 操作符
+            /// </summary>
             Operator,
+            /// <summary>
+            /// 方法
+            /// </summary>
             Function,
+            /// <summary>
+            /// 结果
+            /// </summary>
             Result,
+            /// <summary>
+            /// 左括号
+            /// </summary>
             OpenBracket,
+            /// <summary>
+            /// 右括号
+            /// </summary>
             CloseBracket,
+            /// <summary>
+            /// 无效
+            /// </summary>
             Invalid //states the comparison could not be made and is invalid
         }
+
+        /// <summary>
+        /// 运算符号
+        /// </summary>
         public struct Symbol
         {
+            /// <summary>
+            /// 名称
+            /// </summary>
             public string name;
+            /// <summary>
+            /// 值
+            /// </summary>
             public IEvidenceValue value;
+            /// <summary>
+            /// 类型
+            /// </summary>
             public Type type;
+            /// <summary>
+            /// 重写ToString方法
+            /// </summary>
+            /// <returns></returns>
             public override string ToString()
             {
                 return name;
@@ -92,6 +160,10 @@ namespace RuleEngine.Evidence
 
         #endregion
         #region core
+
+        /// <summary>
+        /// 中缀表达式
+        /// </summary>
         public List<Symbol> Infix
         {
             get
@@ -103,6 +175,10 @@ namespace RuleEngine.Evidence
                 infix = value;
             }
         }
+
+        /// <summary>
+        /// 后缀表达式
+        /// </summary>
         public List<Symbol> Postfix
         {
             get
@@ -116,6 +192,10 @@ namespace RuleEngine.Evidence
         }
 
         #region parser
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eq"></param>
         public void Parse(string eq)
         {
             Debug.Write("Parsing to Infix: " + eq + " : ");
@@ -197,13 +277,17 @@ namespace RuleEngine.Evidence
             }
             return sym;
         }
-
+        /// <summary>
+        /// 是否是变量
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         private bool IsFact(string s)
         {
             if (s == null)
                 return false;
 
-            //variables must have the first digit as a letter and the remaining as numbers and letters
+            //变量必须是第一个作为一个字母，其余的可以为数字和字母
             bool result = true;
             if (!Char.IsLetter(s[0]))
             {
@@ -221,6 +305,11 @@ namespace RuleEngine.Evidence
             }
             return result;
         }
+        /// <summary>
+        /// 是否是布尔类型
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         private bool IsBoolean(string s)
         {
             if (s != null && (s.ToLower() == "true" || s.ToLower() == "false"))
@@ -228,6 +317,11 @@ namespace RuleEngine.Evidence
             else
                 return false;
         }
+        /// <summary>
+        /// 是否是数字
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         private bool IsNumber(string s)
         {
             if (s == null)
@@ -245,6 +339,11 @@ namespace RuleEngine.Evidence
             }
             return result;
         }
+        /// <summary>
+        /// 判断是否是字符串
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         private bool IsString(string s)
         {
             if (s == null)
@@ -255,6 +354,11 @@ namespace RuleEngine.Evidence
                 result = true;
             return result;
         }
+        /// <summary>
+        /// 左括号判断
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         private bool IsOpenParanthesis(string s)
         {
             if (s == null)
@@ -267,6 +371,11 @@ namespace RuleEngine.Evidence
 
             return result;
         }
+        /// <summary>
+        /// 右括号判断
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         private bool IsCloseParanthesis(string s)
         {
             if (s == null)
@@ -279,6 +388,12 @@ namespace RuleEngine.Evidence
 
             return result;
         }
+
+        /// <summary>
+        /// 操作符判断
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         private bool IsOperator(string s)
         {
             if (s == null)
@@ -308,6 +423,12 @@ namespace RuleEngine.Evidence
             }
             return result;
         }
+
+        /// <summary>
+        /// IsFunction
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         private bool IsFunction(string s)
         {
             if (s == null)
@@ -325,6 +446,10 @@ namespace RuleEngine.Evidence
         }
         #endregion
         #region infix to postfix
+
+        /// <summary>
+        /// 中缀转后缀
+        /// </summary>
         public void InfixToPostfix()
         {
             Debug.Write("Parsing Infix to PostFix: ");
@@ -346,7 +471,7 @@ namespace RuleEngine.Evidence
                     {
                         Debug.Write(((Symbol)postfixStack.Peek()).name + "|");
                         postfix.Add((Symbol)postfixStack.Pop());
-                        
+
                     }
                     postfixStack.Push(s);
 
@@ -379,6 +504,12 @@ namespace RuleEngine.Evidence
             Debug.WriteLine("");
         }
 
+        /// <summary>
+        /// 确定优先级
+        /// </summary>
+        /// <param name="higher"></param>
+        /// <param name="lower"></param>
+        /// <returns></returns>
         private bool DeterminePrecidence(Symbol higher, Symbol lower)
         {
             int s1 = Precidence(higher);
@@ -390,6 +521,11 @@ namespace RuleEngine.Evidence
                 return false;
         }
 
+        /// <summary>
+        /// 运算符优先级计算
+        /// </summary>
+        /// <param name="s">运算符</param>
+        /// <returns>运算符优先级</returns>
         private int Precidence(Symbol s)
         {
             int result = 0;
@@ -435,12 +571,18 @@ namespace RuleEngine.Evidence
         }
 
         #endregion
+        /// <summary>
+        /// 核心计算
+        /// </summary>
+        /// <returns></returns>
         public Symbol Evaluate()
         {
+            // 操作栈
             Stack operandStack = new Stack();
 
             foreach (Symbol s in postfix)
             {
+                // 如果是子类型，直接压入操作栈
                 if (s.type == Type.Value)
                 {
                     operandStack.Push(s);
@@ -576,6 +718,13 @@ namespace RuleEngine.Evidence
             return returnValue;
         }
         #region Evaluates
+
+        /// <summary>
+        /// 加法运算
+        /// </summary>
+        /// <param name="op1">操作1</param>
+        /// <param name="op2">操作2</param>
+        /// <returns></returns>
         private Symbol EvaluateAddition(Symbol op1, Symbol op2)
         {
             Symbol op3 = new Symbol();
@@ -590,11 +739,17 @@ namespace RuleEngine.Evidence
                 o2 = op2.value.Value;
 
                 if (o1 is string || o2 is string)
+                {
                     replacement = o1.ToString() + o2.ToString();
+                }
                 else if (o1 is double && o2 is double)
+                {
                     replacement = (double)o1 + (double)o2;
+                }
                 else
+                {
                     throw new Exception("only to be caught");
+                }
             }
             catch
             {
@@ -602,12 +757,18 @@ namespace RuleEngine.Evidence
                 op3.value = null;
                 replacement = op3;
             }
-            Debug.WriteLine(String.Format("ExpressionEvaluator {0} + {1} = {2}", o1, o2, replacement));
 
+            Debug.WriteLine(String.Format("加法运算 {0} + {1} = {2}", o1, o2, replacement));
             op3.value = new Naked(replacement, typeof(bool));
             return op3;
         }
 
+        /// <summary>
+        /// 减法运算
+        /// </summary>
+        /// <param name="op1">被减数</param>
+        /// <param name="op2">减数</param>
+        /// <returns>结果</returns>
         private Symbol EvaluateSubtraction(Symbol op1, Symbol op2)
         {
             Symbol op3 = new Symbol();
@@ -634,12 +795,18 @@ namespace RuleEngine.Evidence
                 op3.value = null;
                 replacement = op3;
             }
-            Debug.WriteLine(String.Format("ExpressionEvaluator {0} - {1} = {2}", o1, o2, replacement));
+            Debug.WriteLine(String.Format("减法运算 {0} - {1} = {2}", o1, o2, replacement));
 
             op3.value = new Naked(replacement, typeof(bool));
             return op3;
         }
 
+        /// <summary>
+        /// 乘法运算
+        /// </summary>
+        /// <param name="op1"></param>
+        /// <param name="op2"></param>
+        /// <returns></returns>
         private Symbol EvaluateMultiplication(Symbol op1, Symbol op2)
         {
             Symbol op3 = new Symbol();
@@ -666,12 +833,18 @@ namespace RuleEngine.Evidence
                 op3.value = null;
                 replacement = op3;
             }
-            Debug.WriteLine(String.Format("ExpressionEvaluator {0} * {1} = {2}", o1, o2, replacement));
+            Debug.WriteLine(String.Format("乘法运算 {0} * {1} = {2}", o1, o2, replacement));
 
             op3.value = new Naked(replacement, typeof(bool));
             return op3;
         }
 
+        /// <summary>
+        /// 除法运算
+        /// </summary>
+        /// <param name="op1">除数</param>
+        /// <param name="op2">被除数</param>
+        /// <returns></returns>
         private Symbol EvaluateDivision(Symbol op1, Symbol op2)
         {
             Symbol op3 = new Symbol();
@@ -696,12 +869,18 @@ namespace RuleEngine.Evidence
             {
                 replacement = false;
             }
-            Debug.WriteLine(String.Format("ExpressionEvaluator {0} / {1} = {2}", o1, o2, replacement));
+            Debug.WriteLine(String.Format("除法运算 {0} / {1} = {2}", o1, o2, replacement));
 
             op3.value = new Naked(replacement, typeof(bool));
             return op3;
         }
 
+        /// <summary>
+        /// 相当运算
+        /// </summary>
+        /// <param name="op1"></param>
+        /// <param name="op2"></param>
+        /// <returns></returns>
         private Symbol EvaluateEquals(Symbol op1, Symbol op2)
         {
             Symbol op3 = new Symbol();
@@ -724,11 +903,18 @@ namespace RuleEngine.Evidence
                 op3.value = null;
                 replacement = op3;
             }
-            Debug.WriteLine(String.Format("ExpressionEvaluator {0} == {1} = {2}", o1, o2, replacement));
+            Debug.WriteLine(String.Format("相等运算 {0} == {1} = {2}", o1, o2, replacement));
 
             op3.value = new Naked(replacement, typeof(bool));
             return op3;
         }
+
+        /// <summary>
+        /// 不等于运算
+        /// </summary>
+        /// <param name="op1"></param>
+        /// <param name="op2"></param>
+        /// <returns></returns>
         private Symbol EvaluateNEquals(Symbol op1, Symbol op2)
         {
             Symbol op3 = new Symbol();
@@ -751,11 +937,18 @@ namespace RuleEngine.Evidence
                 op3.value = null;
                 replacement = op3;
             }
-            Debug.WriteLine(String.Format("ExpressionEvaluator {0} != {1} = {2}", o1, o2, replacement));
+            Debug.WriteLine(String.Format("不等于运算 {0} != {1} = {2}", o1, o2, replacement));
 
             op3.value = new Naked(replacement, typeof(bool));
             return op3;
         }
+
+        /// <summary>
+        /// 与运算 AND
+        /// </summary>
+        /// <param name="op1"></param>
+        /// <param name="op2"></param>
+        /// <returns></returns>
         private Symbol EvaluateAnd(Symbol op1, Symbol op2)
         {
             Symbol op3 = new Symbol();
@@ -778,11 +971,16 @@ namespace RuleEngine.Evidence
                 op3.value = null;
                 replacement = op3;
             }
-            Debug.WriteLine(String.Format("ExpressionEvaluator {0} AND {1} = {2}", b1, b2, replacement));
+            Debug.WriteLine(String.Format("与运算 {0} AND {1} = {2}", b1, b2, replacement));
 
             op3.value = new Naked(replacement, typeof(bool));
             return op3;
         }
+        /// <summary>
+        /// 非运算
+        /// </summary>
+        /// <param name="op1"></param>
+        /// <returns></returns>
         private Symbol EvaluateNot(Symbol op1)
         {
             Symbol op3 = new Symbol();
@@ -803,11 +1001,18 @@ namespace RuleEngine.Evidence
                 op3.value = null;
                 replacement = op3;
             }
-            Debug.WriteLine(String.Format("ExpressionEvaluator NOT {0} = {1}", b1, replacement));
+            Debug.WriteLine(String.Format("非运算 NOT {0} = {1}", b1, replacement));
 
             op3.value = new Naked(replacement, typeof(bool));
             return op3;
         }
+
+        /// <summary>
+        /// 或运算
+        /// </summary>
+        /// <param name="op1"></param>
+        /// <param name="op2"></param>
+        /// <returns></returns>
         private Symbol EvaluateOr(Symbol op1, Symbol op2)
         {
             Symbol op3 = new Symbol();
@@ -843,11 +1048,17 @@ namespace RuleEngine.Evidence
                 op3.value = null;
                 replacement = op3;
             }
-            Debug.WriteLine(String.Format("ExpressionEvaluator {0} OR {1} = {2}", b1, b2, replacement));
+            Debug.WriteLine(String.Format("或运算 {0} OR {1} = {2}", b1, b2, replacement));
 
             op3.value = new Naked(replacement, typeof(bool));
             return op3;
         }
+        /// <summary>
+        /// 大于运算
+        /// </summary>
+        /// <param name="op1"></param>
+        /// <param name="op2"></param>
+        /// <returns></returns>
         private Symbol EvaluateGreaterThan(Symbol op1, Symbol op2)
         {
             Symbol op3 = new Symbol();
@@ -876,11 +1087,17 @@ namespace RuleEngine.Evidence
                 op3.value = null;
                 replacement = op3;
             }
-            Debug.WriteLine(String.Format("ExpressionEvaluator {0} > {1} = {2}", o1, o2, replacement));
+            Debug.WriteLine(String.Format("大于运算 {0} > {1} = {2}", o1, o2, replacement));
 
             op3.value = new Naked(replacement, typeof(bool));
             return op3;
         }
+        /// <summary>
+        /// 小于运算
+        /// </summary>
+        /// <param name="op1"></param>
+        /// <param name="op2"></param>
+        /// <returns></returns>
         private Symbol EvaluateLessThan(Symbol op1, Symbol op2)
         {
             Symbol op3 = new Symbol();
@@ -909,11 +1126,18 @@ namespace RuleEngine.Evidence
                 op3.value = null;
                 replacement = op3;
             }
-            Debug.WriteLine(String.Format("ExpressionExaluator {0} < {1} = {2}", o1, o2, replacement));
+            Debug.WriteLine(String.Format("小于运算 {0} < {1} = {2}", o1, o2, replacement));
 
             op3.value = new Naked(replacement, typeof(bool));
             return op3;
         }
+
+        /// <summary>
+        /// 大于等于运算
+        /// </summary>
+        /// <param name="op1"></param>
+        /// <param name="op2"></param>
+        /// <returns></returns>
         private Symbol EvaluateGreaterThanEqual(Symbol op1, Symbol op2)
         {
             Symbol op3 = new Symbol();
@@ -942,11 +1166,18 @@ namespace RuleEngine.Evidence
                 op3.value = null;
                 replacement = op3;
             }
-            Debug.WriteLine(String.Format("ExpressionEvaluator {0} >= {1} = {2}", o1, o2, replacement));
+            Debug.WriteLine(String.Format("大于等于运算 {0} >= {1} = {2}", o1, o2, replacement));
 
             op3.value = new Naked(replacement, typeof(bool));
             return op3;
         }
+
+        /// <summary>
+        /// 小于等于运算
+        /// </summary>
+        /// <param name="op1"></param>
+        /// <param name="op2"></param>
+        /// <returns></returns>
         private Symbol EvaluateLessThanEqual(Symbol op1, Symbol op2)
         {
             Symbol op3 = new Symbol();
@@ -975,7 +1206,7 @@ namespace RuleEngine.Evidence
                 op3.value = null;
                 replacement = op3;
             }
-            Debug.WriteLine(String.Format("ExpressionExaluator {0} <= {1} = {2}", o1, o2, replacement));
+            Debug.WriteLine(String.Format("小于等于运算 {0} <= {1} = {2}", o1, o2, replacement));
 
             op3.value = new Naked(replacement, typeof(bool));
             return op3;

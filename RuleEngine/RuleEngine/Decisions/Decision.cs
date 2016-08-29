@@ -146,26 +146,28 @@ namespace RuleEngine.Decisions
 
                 //add its actions, if any, to executionList, for evidence that has clauses
                 // /如果证明有子句的，增加它的行为
-                if (evidence.ClauseEvidence != null)
+                if (evidence.ClauseEvidence != null && evidence.ClauseEvidence.Length > 0)
                 {
+                    Debug.WriteLine(evidence.ID + "有附属条件 ");
                     foreach (string clauseEvidenceId in evidence.ClauseEvidence)
                     {
                         Evidence.IEvidence clauseEvidence = (Evidence.IEvidence)evidenceCollection[clauseEvidenceId];
                         executionList.Add(clauseEvidence);
-                        Debug.WriteLine("Added evidence to execution list: " + clauseEvidence.ID);
+                        Debug.WriteLine("将附属条件加入执行列表 " + clauseEvidence.ID);
                     }
                 }
 
                 //add chainable dependent facts to executionList
-                // /执行列表的链式的相关的事实
+                // 执行列表的链式的相关的事实
                 if (factRelationships.ContainsKey(evidence.ID))
                 {
+                    Debug.WriteLine("有依赖的事实");
                     List<string> dependentFacts = factRelationships[evidence.ID];
                     foreach (string dependentFact in dependentFacts)
                     {
                         Evidence.IEvidence dependentEvidence = (Evidence.IEvidence)evidenceCollection[dependentFact];
                         executionList.Add(dependentEvidence);
-                        Debug.WriteLine("Added dependent evidence to execution list: " + dependentEvidence.ID);
+                        Debug.WriteLine("将依赖的事实加入执行列表: " + dependentEvidence.ID);
                     }
                 }
 

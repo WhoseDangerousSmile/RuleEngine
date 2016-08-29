@@ -24,7 +24,7 @@ using System.Text;
 namespace RuleEngine.Evidence.EvidenceValue
 {
     /// <summary>
-    /// Comparable object that has no reference to the model
+    /// 裸值
     /// </summary>
     public class Naked : IEvidenceValue
     {
@@ -45,11 +45,10 @@ namespace RuleEngine.Evidence.EvidenceValue
         #endregion
         #region constructor
         /// <summary>
-        /// 
+        /// 裸值
         /// </summary>
-        /// <param name="value"></param>
-        /// <param name="valueType"></param>
-        /// <param name="parent"></param>
+        /// <param name="value">值</param>
+        /// <param name="valueType">类型</param>
         ////[System.Diagnostics.DebuggerHidden]
         public Naked(object value, Type valueType)
         {
@@ -59,7 +58,7 @@ namespace RuleEngine.Evidence.EvidenceValue
         #endregion
         #region core
         /// <summary>
-        /// 
+        /// 值
         /// </summary>
         //[System.Diagnostics.DebuggerHidden]
         public object Value
@@ -79,7 +78,7 @@ namespace RuleEngine.Evidence.EvidenceValue
         }
 
         /// <summary>
-        /// 
+        /// 类型
         /// </summary>
         //[System.Diagnostics.DebuggerHidden]
         public Type ValueType

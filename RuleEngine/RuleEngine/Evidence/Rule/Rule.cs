@@ -31,20 +31,41 @@ namespace RuleEngine.Evidence
     public class Rule : AEvidence, IRule
     {
         #region IRule Members
+        /// <summary>
+        /// 是否是链式规则
+        /// </summary>
         private bool chainable = false;
+
+        /// <summary>
+        /// 方程式
+        /// </summary>
         protected string equation;
+
+        /// <summary>
+        /// 后缀表达式
+        /// </summary>
         private List<RuleEngine.Evidence.ExpressionEvaluator.Symbol> postfixExpression;
+
         private List<EvidenceSpecifier> actions;
         #endregion
         #region constructor
+        /// <summary>
+        /// 规则构造函数
+        /// </summary>
+        /// <param name="ID">ID</param>
+        /// <param name="equation">方程式</param>
+        /// <param name="actions">行为动作</param>
+        /// <param name="priority"></param>
+        /// <param name="chainable"></param>
         public Rule(string ID, string equation, List<EvidenceSpecifier> actions, int priority, bool chainable)
             : base(ID, priority)
         {
             if (actions == null || actions.Count < 1)
-                throw new Exception("Rules must have at least one action.");
+                throw new Exception("规则必须至少有一个行为");
             foreach (EvidenceSpecifier action in actions)
             {
                 if (!action.truthality && chainable)
+                    // 连贯性的规则是不允许包含结果是错误的动作
                     throw new Exception("Chainable rules are not allowed to contain actions whos result is false.");
             }
 
@@ -56,19 +77,26 @@ namespace RuleEngine.Evidence
             {
                 al.Add(es.evidenceID);
             }
+
+            // 规则的附属行为动作
             this.clauseEvidence = (string[])al.ToArray(typeof(string));
 
             //this is expensive and static, so compute now
             ExpressionEvaluator e = new ExpressionEvaluator();
+            // 方程式转化为中缀表达式
             e.Parse(equation); //this method is slow, do it only when needed
+            // 中缀表达式转为后缀表达式
             e.InfixToPostfix(); //this method is slow, do it only when needed
+
             this.postfixExpression = e.Postfix; //this method is slow, do it only when needed
 
             //determine the dependent facts
+            // 确定依赖的变量
             string[] dependents = ExpressionEvaluator.RelatedEvidence(e.Postfix);
             dependentEvidence = dependents;
 
             //change event could set its value when a model is attached
+            // 当一个模型被连接时，change事件可以设置它的值
             Naked naked = new Naked(false, typeof(bool));
             base.EvidenceValue = naked;
         }
@@ -147,11 +175,15 @@ namespace RuleEngine.Evidence
         public override void Evaluate()
         {
             ExpressionEvaluator e = new ExpressionEvaluator();
-            e.GetEvidence += new EvidenceLookupHandler(RaiseEvidenceLookup);
-            e.Postfix = this.postfixExpression;
-            ExpressionEvaluator.Symbol o = e.Evaluate(); //PERFORMANCE: this method is slow.
 
-            base.EvidenceValue.Reset(); //清空之前数据
+            // 注册事件
+            e.GetEvidence += new EvidenceLookupHandler(RaiseEvidenceLookup);
+            // 后缀表达式
+            e.Postfix = this.postfixExpression;
+            // 计算表达式
+            ExpressionEvaluator.Symbol o = e.Evaluate(); //PERFORMANCE: this method is slow.
+            //清空之前数据
+            base.EvidenceValue.Reset();
 
             //result must be of this type or the expression is invalid, throw exception
             // 结果是IEvidenceValue类型，或者表达式为无效的，则抛出异常
@@ -163,11 +195,12 @@ namespace RuleEngine.Evidence
                 return;
             }
 
-            // 值被改变了则调用事件
+
             if (base.Value.Equals(result.Value))
                 return; //no change in value, dont raise an event
 
             base.Value = result.Value; // 此方法，引发false时规则条件表达式中的引用为0
+            // 值被改变了则调用事件
             RaiseChanged(this, new ChangedArgs());
         }
 

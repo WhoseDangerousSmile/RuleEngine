@@ -23,14 +23,29 @@ using System.Text;
 
 namespace RuleEngine.Evidence
 {
+    /// <summary>
+    ///  Evidence 结构体
+    /// </summary>
     public struct EvidenceSpecifier
     {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="truthality">truthality</param>
+        /// <param name="evidenceID">evidenceID</param>
         public EvidenceSpecifier(bool truthality, string evidenceID)
         {
             this.truthality = truthality;
             this.evidenceID = evidenceID;
         }
+        /// <summary>
+        /// truthality
+        /// </summary>
         public bool truthality;
+
+        /// <summary>
+        /// evidenceID
+        /// </summary>
         public string evidenceID;
     }
 }

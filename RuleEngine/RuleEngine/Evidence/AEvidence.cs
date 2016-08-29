@@ -42,9 +42,19 @@ namespace RuleEngine.Evidence
         private event EvidenceLookupHandler evidenceLookup;
         private event CallbackHandler callbackLookup;
 
-        protected string[] dependentEvidence=null;
+        /// <summary>
+        /// 相关变量
+        /// </summary>
+        protected string[] dependentEvidence = null;
+
+        /// <summary>
+        /// 附属变量
+        /// </summary>
         protected string[] clauseEvidence = null;
-        private int priority=0;
+        /// <summary>
+        /// 优先级
+        /// </summary>
+        private int priority = 0;
 
         #endregion
         #region constructors
@@ -256,11 +266,11 @@ namespace RuleEngine.Evidence
             AEvidence x = (AEvidence)Activator.CreateInstance(t);
             x.id = id;
             x.priority = priority;
-            if (dependentEvidence!=null)
+            if (dependentEvidence != null)
                 x.dependentEvidence = (string[])dependentEvidence.Clone();
-            if (clauseEvidence!=null)
+            if (clauseEvidence != null)
                 x.clauseEvidence = (string[])clauseEvidence.Clone();
-            if (EvidenceValue!=null)
+            if (EvidenceValue != null)
                 x.EvidenceValue = (IEvidenceValue)EvidenceValue.Clone();
             return x;
         }
@@ -278,7 +288,7 @@ namespace RuleEngine.Evidence
             set
             {
                 isEvaluatable = value;
-                if (value && this.value!=null)
+                if (value && this.value != null)
                 {
                     this.value.Reset();
                 }
@@ -303,8 +313,10 @@ namespace RuleEngine.Evidence
         //[System.Diagnostics.DebuggerHidden]
         protected virtual void RaiseChanged(object sender, ChangedArgs args)
         {
-            if (changed!=null)
+            if (changed != null)
+            {
                 changed(sender, args);
+            }
         }
         /// <summary>
         /// 

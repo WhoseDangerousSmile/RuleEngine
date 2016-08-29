@@ -5,7 +5,7 @@
     <Rule id="Rule1" desc="" chainable="True">
       <Condition><![CDATA[ NOT(F2>F1) ]]></Condition>
       <Actions>
-        <Evaluate factId="F2"><![CDATA[ F2+1 ]]></Evaluate>
+        <Evaluate factId="F2"><![CDATA[ 2*F2+1 ]]></Evaluate>
         <Execute factId="Rule2" />
       </Actions>
     </Rule>

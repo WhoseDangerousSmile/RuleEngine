@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RuleEngine>
+  <Rules>
+    <Rule id="RuleNoTax" desc="Rule for no tax" chainable="true"  priority="100">
+      <Condition><![CDATA[ GrossSalary < 500000 ]]></Condition>
+      <Actions>
+        <Evaluate factId="Tax" ><![CDATA[0]]></Evaluate>
+        <Evaluate factId="NetSalary"><![CDATA[ GrossSalary ]]></Evaluate>
+        <Execute factId="RuleMediumTax"/>
+      </Actions>
+    </Rule>
+
+
+    <Rule id="RuleMediumTax" desc="Rule for Medium tax" chainable="true"   priority="19">
+      <Condition><![CDATA[ (GrossSalary>=500000) AND (GrossSalary<800000)]]></Condition>
+      <Actions>
+        <Evaluate factId="Tax" priority="11"><![CDATA[ (GrossSalary *2/10)  ]]></Evaluate>
+        <Evaluate factId="NetSalary" priority="1"><![CDATA[ (GrossSalary-Tax) ]]></Evaluate>
+        <Execute factId="RuleHighTax"/>
+      </Actions>
+
+    </Rule>
+    <Rule id="RuleHighTax" desc="Rule for High tax"  chainable="true"  priority="2">
+      <Condition><![CDATA[ GrossSalary>=800000]]></Condition>
+      <Actions>
+        <Evaluate factId="Tax" priority="2" ><![CDATA[ GrossSalary*3/10 ]]></Evaluate>
+        <Evaluate factId="NetSalary" priority="1"><![CDATA[ GrossSalary-Tax ]]></Evaluate>
+      </Actions>
+    </Rule>
+
+  </Rules>
+
+  <Facts>
+    <!--工资总额-->
+    <Fact id="GrossSalary" desc="Gross Salary" type="double" modelId="Employee">
+      <xpath><![CDATA[ number(Employee/GrossSalary) ]]></xpath>
+    </Fact>
+    <!--房租津贴-->
+    <Fact id="HRA" desc="House Rent Allowance" type="double" modelId="Employee">
+      <xpath><![CDATA[ Employee/HRA ]]></xpath>
+    </Fact>
+    <!--税收-->
+    <Fact id="Tax" desc="Tax" type="double" modelId="Employee">
+      <xpath><![CDATA[ Employee/Tax ]]></xpath>
+    </Fact>
+    <!--净工资-->
+    <Fact id="NetSalary" desc="Net Salary" type="double" modelId="Employee">
+      <xpath><![CDATA[ Employee/NetSalary ]]></xpath>
+    </Fact>
+
+
+  </Facts>
+
+</RuleEngine>
