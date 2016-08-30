@@ -28,7 +28,7 @@ using RuleEngine.Evidence.EvidenceValue;
 using RuleEngine.Evidence.Actions;
 
 namespace RuleEngine.Compiler
-{ 
+{
     public class Compiler
     {
         public static ROM Compile(XmlDocument document)
@@ -60,12 +60,12 @@ namespace RuleEngine.Compiler
                 Type valueType = null;
 
                 //ensure same rule wont be entered twice
-                if (rom[id]!=null)
+                if (rom[id] != null)
                     throw new Exception("Fact has already been loaded: " + id);
 
                 //determine priority
                 int priority = 500;
-                if (factNode.Attributes["priority"]!=null)
+                if (factNode.Attributes["priority"] != null)
                     priority = Int32.Parse(factNode.Attributes["priority"].Value);
 
 
@@ -99,29 +99,29 @@ namespace RuleEngine.Compiler
                 }
                 else
                 {
-/*
-                    //determine value type
-                    switch (type) //deterrmine the type of value returned by xpath
-                    {
-                        case "double":
-                            valueType = typeof(double);
-                            break;
-                        case "boolean":
-                            valueType = typeof(bool);
-                            break;
-                        case "string":
-                            valueType = typeof(string);
-                            break;
-                        default:
-                            throw new Exception("Invalid type: " + id + " " + type);
-                    }
+                    /*
+                                        //determine value type
+                                        switch (type) //deterrmine the type of value returned by xpath
+                                        {
+                                            case "double":
+                                                valueType = typeof(double);
+                                                break;
+                                            case "boolean":
+                                                valueType = typeof(bool);
+                                                break;
+                                            case "string":
+                                                valueType = typeof(string);
+                                                break;
+                                            default:
+                                                throw new Exception("Invalid type: " + id + " " + type);
+                                        }
 
-                    //determine value
-                    Naked x = new Naked(value, valueType);
+                                        //determine value
+                                        Naked x = new Naked(value, valueType);
 
-                    //create fact and add it to the rom
-                    fact = new Fact(id, priority, valueType,);
- */
+                                        //create fact and add it to the rom
+                                        fact = new Fact(id, priority, valueType,);
+                     */
                 }
 
 
@@ -214,10 +214,16 @@ namespace RuleEngine.Compiler
         {
         }
 
+        /// <summary>
+        /// 事实关联 链式规则
+        /// </summary>
+        /// <param name="rom"></param>
+        /// <param name="doc"></param>
         private static void FactRelationship(ROM rom, XmlDocument doc)
         {
             //go though each chainable rule and determine who they are dependent on
-            foreach(IEvidence evidence in rom.Evidence.Values)
+            // 根据每一个链式的规则去确定是被谁依赖
+            foreach (IEvidence evidence in rom.Evidence.Values)
             {
                 if (!(evidence is IRule))
                     continue;

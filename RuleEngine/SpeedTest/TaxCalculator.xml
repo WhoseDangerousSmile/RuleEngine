@@ -18,8 +18,8 @@
         <Evaluate factId="NetSalary" priority="1"><![CDATA[ (GrossSalary-Tax) ]]></Evaluate>
         <Execute factId="RuleHighTax"/>
       </Actions>
-
     </Rule>
+
     <Rule id="RuleHighTax" desc="Rule for High tax"  chainable="true"  priority="2">
       <Condition><![CDATA[ GrossSalary>=800000]]></Condition>
       <Actions>
@@ -47,8 +47,6 @@
     <Fact id="NetSalary" desc="Net Salary" type="double" modelId="Employee">
       <xpath><![CDATA[ Employee/NetSalary ]]></xpath>
     </Fact>
-
-
   </Facts>
 
 </RuleEngine>

@@ -25,6 +25,7 @@ using System.Xml;
 
 using RuleEngine.Evidence;
 using RuleEngine.Evidence.EvidenceValue;
+using System.Diagnostics;
 
 namespace RuleEngine.Evidence
 {
@@ -195,9 +196,11 @@ namespace RuleEngine.Evidence
                 return;
             }
 
-
+            Debug.WriteLine(string.Format("规则{0},原始值{1},计算后的值{2}", this.ID, base.Value, result.Value));
             if (base.Value.Equals(result.Value))
+            {
                 return; //no change in value, dont raise an event
+            }
 
             base.Value = result.Value; // 此方法，引发false时规则条件表达式中的引用为0
             // 值被改变了则调用事件

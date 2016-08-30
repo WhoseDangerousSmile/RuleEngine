@@ -64,8 +64,10 @@ namespace RuleEngine.Decisions
                 evidence.Changed += delegate (object sender, ChangedArgs args)
                 {
                     IEvidence evidence1 = (IEvidence)sender;
+                    Debug.WriteLine(string.Format("值发生了改变： {0},{1}", evidence1.ValueType, evidence1.ID));
                     if (!(evidence1 is IFact))
                     {
+                        Debug.WriteLine("发生改变的类型是FACT不处理： ");
                         return; //exit if not IFact
                     }
 

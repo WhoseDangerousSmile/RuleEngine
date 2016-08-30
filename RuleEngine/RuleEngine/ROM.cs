@@ -85,10 +85,39 @@ namespace RuleEngine
             Debug.WriteLine(evidence + "添加依赖事实: " + dependentEvidence);
             if (!this.dependentEvidence.ContainsKey(evidence))
             {
-                this.dependentEvidence.Add(evidence, new List<string>());
+                this.dependentEvidence.Add(evidence, new List<string>() { dependentEvidence });
             }
+            else
+            {
+                // 去重
+                if (!this.dependentEvidence[evidence].Contains(dependentEvidence))
+                {
+                    this.dependentEvidence[evidence].Add(dependentEvidence);
+                }
+            }
+        }
 
-            this.dependentEvidence[evidence].Add(dependentEvidence);
+
+        /// <summary>
+        /// specifies for a given evidence all evidence thats dependent on it
+        /// </summary>
+        /// <param name="evidence"></param>
+        /// <param name="dependentEvidence"></param>
+        public void RemoveDependentFact(string evidence, string dependentEvidence)
+        {
+            Debug.WriteLine(evidence + "移除依赖事实: " + dependentEvidence);
+            if (this.dependentEvidence.ContainsKey(evidence))
+            {
+                if (this.dependentEvidence[evidence].Contains(dependentEvidence))
+                {
+                    this.dependentEvidence[evidence].Remove(dependentEvidence);
+                }
+
+                if (this.dependentEvidence[evidence].Count == 0)
+                {
+                    this.dependentEvidence.Remove(evidence);
+                }
+            }
         }
 
         /// <summary>
