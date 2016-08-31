@@ -64,7 +64,7 @@ namespace RuleEngine.Decisions
                 evidence.Changed += delegate (object sender, ChangedArgs args)
                 {
                     IEvidence evidence1 = (IEvidence)sender;
-                    Debug.WriteLine(string.Format("值发生了改变： {0},{1}", evidence1.ValueType, evidence1.ID));
+                    Debug.WriteLine(string.Format("值发生了改变：类型-{0},ID-{1}", evidence1.ValueType, evidence1.ID));
                     if (!(evidence1 is IFact))
                     {
                         Debug.WriteLine("发生改变的类型是FACT不处理： ");
@@ -171,6 +171,10 @@ namespace RuleEngine.Decisions
                         executionList.Add(dependentEvidence);
                         Debug.WriteLine("将依赖的事实加入执行列表: " + dependentEvidence.ID);
                     }
+
+                    // 
+                    Debug.WriteLine("将依赖的事实移除依赖: " + evidence.ID);
+                    factRelationships.Remove(evidence.ID);
                 }
 
                 Debug.IndentLevel--;

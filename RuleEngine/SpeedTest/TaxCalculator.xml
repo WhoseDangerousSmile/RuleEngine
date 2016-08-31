@@ -2,29 +2,30 @@
 <RuleEngine>
   <Rules>
     <Rule id="RuleNoTax" desc="Rule for no tax" chainable="true"  priority="100">
-      <Condition><![CDATA[ GrossSalary < 500000 ]]></Condition>
+      <Condition><![CDATA[ (GrossSalary-HRA) < 500000 ]]></Condition>
       <Actions>
+        <!--求值-->
         <Evaluate factId="Tax" ><![CDATA[0]]></Evaluate>
-        <Evaluate factId="NetSalary"><![CDATA[ GrossSalary ]]></Evaluate>
+        <Evaluate factId="NetSalary"><![CDATA[ GrossSalary-HRA ]]></Evaluate>
+        <!--执行下一条规则-->
         <Execute factId="RuleMediumTax"/>
       </Actions>
     </Rule>
 
-
     <Rule id="RuleMediumTax" desc="Rule for Medium tax" chainable="true"   priority="19">
-      <Condition><![CDATA[ (GrossSalary>=500000) AND (GrossSalary<800000)]]></Condition>
+      <Condition><![CDATA[ ((GrossSalary-HRA)>=500000) AND ((GrossSalary-HRA)<800000)]]></Condition>
       <Actions>
-        <Evaluate factId="Tax" priority="11"><![CDATA[ (GrossSalary *2/10)  ]]></Evaluate>
-        <Evaluate factId="NetSalary" priority="1"><![CDATA[ (GrossSalary-Tax) ]]></Evaluate>
+        <Evaluate factId="Tax" priority="11"><![CDATA[ ((GrossSalary-HRA) *2/10)  ]]></Evaluate>
+        <Evaluate factId="NetSalary" priority="1"><![CDATA[ (GrossSalary-HRA-Tax) ]]></Evaluate>
         <Execute factId="RuleHighTax"/>
       </Actions>
     </Rule>
 
     <Rule id="RuleHighTax" desc="Rule for High tax"  chainable="true"  priority="2">
-      <Condition><![CDATA[ GrossSalary>=800000]]></Condition>
+      <Condition><![CDATA[ GrossSalary-HRA>=800000]]></Condition>
       <Actions>
-        <Evaluate factId="Tax" priority="2" ><![CDATA[ GrossSalary*3/10 ]]></Evaluate>
-        <Evaluate factId="NetSalary" priority="1"><![CDATA[ GrossSalary-Tax ]]></Evaluate>
+        <Evaluate factId="Tax" priority="2" ><![CDATA[ ((GrossSalary-HRA)*3/10) ]]></Evaluate>
+        <Evaluate factId="NetSalary" priority="1"><![CDATA[ (GrossSalary-HRA-Tax) ]]></Evaluate>
       </Actions>
     </Rule>
 

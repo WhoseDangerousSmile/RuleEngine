@@ -198,7 +198,7 @@ namespace RuleEngine.Evidence
         /// <param name="eq"></param>
         public void Parse(string eq)
         {
-            Debug.Write("Parsing to Infix: " + eq + " : ");
+            Debug.Write("转化为中缀表达式 " + eq + " : ");
 
             //reset 
             infix.Clear();
@@ -278,7 +278,7 @@ namespace RuleEngine.Evidence
             return sym;
         }
         /// <summary>
-        /// 是否是变量
+        /// 是否是事实
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
@@ -452,7 +452,7 @@ namespace RuleEngine.Evidence
         /// </summary>
         public void InfixToPostfix()
         {
-            Debug.Write("Parsing Infix to PostFix: ");
+            Debug.Write("中缀转后缀: ");
 
             postfix.Clear();
             Stack postfixStack = new Stack();

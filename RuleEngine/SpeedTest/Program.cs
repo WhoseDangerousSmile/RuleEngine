@@ -27,10 +27,11 @@ namespace SpeedTest
         static void Main(string[] args)
         {
             //IndividualFactTest();
-            // FactTest();
+            //FactTest();
             //ClonedFactTest();
-            //ExampleTest();
-            ExecuteTaxRules();
+            ExampleTest();
+            /// 工资计算实例
+            //ExecuteTaxRules();
             Console.Write("Finished.. Press Return.");
             Console.Read();
         }
@@ -66,15 +67,15 @@ namespace SpeedTest
             listA.Add(new EvidenceSpecifier(true, "2"));
             listA.Add(new EvidenceSpecifier(true, "3"));
 
-            //List<EvidenceSpecifier> listB = new List<EvidenceSpecifier>();
-            //listB.Add(new EvidenceSpecifier(true, "1"));
-            //listB.Add(new EvidenceSpecifier(true, "2"));
-            //listB.Add(new EvidenceSpecifier(true, "3"));
+            List<EvidenceSpecifier> listB = new List<EvidenceSpecifier>();
+            listB.Add(new EvidenceSpecifier(true, "1"));
+            listB.Add(new EvidenceSpecifier(true, "2"));
+            listB.Add(new EvidenceSpecifier(true, "3"));
 
-            //List<EvidenceSpecifier> listC = new List<EvidenceSpecifier>();
-            //listC.Add(new EvidenceSpecifier(true, "1"));
-            //listC.Add(new EvidenceSpecifier(true, "2"));
-            //listC.Add(new EvidenceSpecifier(true, "3"));
+            List<EvidenceSpecifier> listC = new List<EvidenceSpecifier>();
+            listC.Add(new EvidenceSpecifier(true, "1"));
+            listC.Add(new EvidenceSpecifier(true, "2"));
+            listC.Add(new EvidenceSpecifier(true, "3"));
 
             ////create a rule
             Rule R1 = new Rule("R1", "a*4/b*6+9-c", listA, 500, true);
@@ -174,7 +175,7 @@ namespace SpeedTest
             // NetSalary 净工资
             model.LoadXml(@"
 <Employee>
-<GrossSalary>850000</GrossSalary>
+<GrossSalary>700000</GrossSalary>
 <HRA>50000</HRA>
 <Tax></Tax>
 <NetSalary></NetSalary>
@@ -185,7 +186,8 @@ namespace SpeedTest
             rom.Evaluate();
             var tax = model["Employee"]["Tax"].InnerText;
             var NetSalary = model["Employee"]["NetSalary"].InnerText;
-            var message = string.Format("Tax: {0} and Net take home salary :{1}", tax, NetSalary);
+            var grossSalary = model["Employee"]["GrossSalary"].InnerText;
+            var message = string.Format("GrossSalary:{0},Tax: {1} and Net take home salary :{2}", grossSalary, tax, NetSalary);
             Console.Write(message);
             Console.Read();
         }

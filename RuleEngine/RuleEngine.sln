@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\Unit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeedTest", "SpeedTest\SpeedTest.csproj", "{F6029355-9DAB-498C-A70F-6B29FA3E1B48}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuleEngineTests", "RuleEngineTests\RuleEngineTests.csproj", "{074E3121-C787-451F-92F5-E8D68509C502}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuleEngineTests.Tests", "RuleEngineTests.Tests\RuleEngineTests.Tests.csproj", "{D65DEEF1-74C0-412D-91CB-8FA2FADD4643}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -51,6 +55,30 @@ Global
 		{F6029355-9DAB-498C-A70F-6B29FA3E1B48}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F6029355-9DAB-498C-A70F-6B29FA3E1B48}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{F6029355-9DAB-498C-A70F-6B29FA3E1B48}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{074E3121-C787-451F-92F5-E8D68509C502}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{074E3121-C787-451F-92F5-E8D68509C502}.Debug|.NET.Build.0 = Debug|Any CPU
+		{074E3121-C787-451F-92F5-E8D68509C502}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{074E3121-C787-451F-92F5-E8D68509C502}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{074E3121-C787-451F-92F5-E8D68509C502}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{074E3121-C787-451F-92F5-E8D68509C502}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{074E3121-C787-451F-92F5-E8D68509C502}.Release|.NET.ActiveCfg = Release|Any CPU
+		{074E3121-C787-451F-92F5-E8D68509C502}.Release|.NET.Build.0 = Release|Any CPU
+		{074E3121-C787-451F-92F5-E8D68509C502}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{074E3121-C787-451F-92F5-E8D68509C502}.Release|Any CPU.Build.0 = Release|Any CPU
+		{074E3121-C787-451F-92F5-E8D68509C502}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{074E3121-C787-451F-92F5-E8D68509C502}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D65DEEF1-74C0-412D-91CB-8FA2FADD4643}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{D65DEEF1-74C0-412D-91CB-8FA2FADD4643}.Debug|.NET.Build.0 = Debug|Any CPU
+		{D65DEEF1-74C0-412D-91CB-8FA2FADD4643}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D65DEEF1-74C0-412D-91CB-8FA2FADD4643}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D65DEEF1-74C0-412D-91CB-8FA2FADD4643}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D65DEEF1-74C0-412D-91CB-8FA2FADD4643}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D65DEEF1-74C0-412D-91CB-8FA2FADD4643}.Release|.NET.ActiveCfg = Release|Any CPU
+		{D65DEEF1-74C0-412D-91CB-8FA2FADD4643}.Release|.NET.Build.0 = Release|Any CPU
+		{D65DEEF1-74C0-412D-91CB-8FA2FADD4643}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D65DEEF1-74C0-412D-91CB-8FA2FADD4643}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D65DEEF1-74C0-412D-91CB-8FA2FADD4643}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D65DEEF1-74C0-412D-91CB-8FA2FADD4643}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
